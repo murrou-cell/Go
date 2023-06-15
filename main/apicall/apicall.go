@@ -17,9 +17,7 @@ func checkErr(err error) {
 func formatJSON(data []byte) string {
 	var out bytes.Buffer
 	err := json.Indent(&out, data, "", " ")
-
 	checkErr(err)
-
 	d := out.Bytes()
 	return string(d)
 }
@@ -39,8 +37,4 @@ func Getmyip() string {
 	checkErr(err)
 
 	return readBody(*response)
-}
-
-func GetmyipAsDict(s string) map{
-	
 }
