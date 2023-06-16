@@ -28,7 +28,7 @@ func readBody(resp http.Response) string {
 	return formatJSON(responseBody)
 }
 
-func Getmyip() string {
+func Getmyip() (string, int) {
 	request, err := http.NewRequest("GET", "https://api64.ipify.org?format=json", nil)
 	checkErr(err)
 
@@ -36,5 +36,16 @@ func Getmyip() string {
 	response, err := client.Do(request)
 	checkErr(err)
 
-	return readBody(*response)
+	return readBody(*response), response.StatusCode
+}
+
+func MakePostRequest(body []byte) (string, int) {
+	request, err := http.NewRequest("POST", "https://httpbin.org/post", bytes.NewBuffer(body))
+	checkErr(err)
+	client := &http.Client{}
+
+	response, err := client.Do(request)
+	checkErr(err)
+	return readBody(*response), response.StatusCode
+
 }

@@ -20,3 +20,9 @@ func JsonToMap(jsonS string) map[string]interface{} {
 	return data
 
 }
+
+func StructToJson(s any) []byte {
+	j, err := json.Marshal(s)
+	checkErr(err)
+	return j
+}
