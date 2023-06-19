@@ -26,3 +26,5 @@ func StructToJson(s any) []byte {
 	checkErr(err)
 	return j
 }
+
+// TEST
