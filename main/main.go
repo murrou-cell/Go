@@ -2,13 +2,18 @@ package main
 
 import (
 	"fmt"
-	"murrou/main/apicall"
+	"murrou/main/api"
 	"murrou/main/mapmanipulator"
 )
 
 func main() {
 	// GET API CALL
-	myIp, respCode := apicall.Getmyip()
+	mapp := map[string]interface{}{
+		"url":     "https://api64.ipify.org",
+		"args":    map[string]string{"format": "json"},
+		"headers": map[string]string{"Content-Type": "application/json"},
+	}
+	myIp, respCode := api.Get(mapp)
 	// PARSING RESPONSE AND RESPONSE CODE
 	fmt.Println("response code: ", respCode, "response body: ", myIp)
 
@@ -22,24 +27,32 @@ func main() {
 
 	// BUILDING STRUCT FOR POST REQUEST
 
-	type User struct {
-		Name  string
-		Email string
-		Id    string
+	// type User struct {
+	// 	Name  string
+	// 	Email string
+	// 	Id    string
+	// }
+
+	// // ASIGNING VALUES TO STRUCT
+	// user := &User{Name: "Marin"}
+	// user.Email = "marin@murrou.com"
+	// user.Id = "1"
+
+	// // CONVERTING STRUCT TO JSON
+	// var jsonStruct = mapmanipulator.StructToJson(user)
+	// // TEST THAT IS WORKING
+	// fmt.Println("JSON FROM STRUCT: ", string(jsonStruct))
+
+	// // MAKING POST REQUEST
+	// postResponseBody, respCode := apicall.MakePostRequest(jsonStruct)
+
+	args := map[string]interface{}{
+		"url":      "https://httpbin.org",
+		"endpoint": "post",
+		"headers":  map[string]string{"Content-Type": "application/json"},
+		"body":     map[string]string{"name": "Marin", "email": "marin@abv.bg", "id": "1"},
 	}
-
-	// ASIGNING VALUES TO STRUCT
-	user := &User{Name: "Marin"}
-	user.Email = "marin@murrou.com"
-	user.Id = "1"
-
-	// CONVERTING STRUCT TO JSON
-	var jsonStruct = mapmanipulator.StructToJson(user)
-	// TEST THAT IS WORKING
-	fmt.Println("JSON FROM STRUCT: ", string(jsonStruct))
-
-	// MAKING POST REQUEST
-	postResponseBody, respCode := apicall.MakePostRequest(jsonStruct)
+	postResponseBody, respCode := api.Post(args)
 
 	// SHOWING THE RESPONSE BODY AND RESPONSE
 	fmt.Println("response code: ", respCode, "response body: ", postResponseBody)
