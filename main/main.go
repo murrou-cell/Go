@@ -3,16 +3,23 @@ package main
 import (
 	"fmt"
 	"murrou/main/api"
+	"murrou/main/configer"
 	"murrou/main/mapmanipulator"
 )
 
 func main() {
-	// GET API CALL
-	mapp := map[string]interface{}{
-		"url":     "https://api64.ipify.org",
-		"args":    map[string]string{"format": "json"},
-		"headers": map[string]string{"Content-Type": "application/json"},
-	}
+
+	// mapp := map[string]interface{}{
+	// 	"url":     configer.GetConfigVal("example", "GET", "url", false),
+	// 	"args":    configer.GetConfigVal("example", "GET", "args", true),
+	// 	"headers": configer.GetConfigVal("example", "GET", "headers", true),
+	// }
+	// mapp := map[string]interface{}{
+	// 	"url":     "https://api64.ipify.org",
+	// 	"args":    map[string]string{"format": "json"},
+	// 	"headers": map[string]string{"Content-Type": "application/json"},
+	// }
+	mapp := configer.GetSection("example", "GET")
 	myIp, respCode := api.Get(mapp)
 	// PARSING RESPONSE AND RESPONSE CODE
 	fmt.Println("response code: ", respCode, "response body: ", myIp)
@@ -46,12 +53,15 @@ func main() {
 	// // MAKING POST REQUEST
 	// postResponseBody, respCode := apicall.MakePostRequest(jsonStruct)
 
-	args := map[string]interface{}{
-		"url":      "https://httpbin.org",
-		"endpoint": "post",
-		"headers":  map[string]string{"Content-Type": "application/json"},
-		"body":     map[string]string{"name": "Marin", "email": "marin@abv.bg", "id": "1"},
-	}
+	// args := map[string]interface{}{
+	// 	"url":      "https://httpbin.org",
+	// 	"endpoint": "post",
+	// 	"headers":  map[string]string{"Content-Type": "application/json"},
+	// 	"body":     map[string]string{"name": "Marin", "email": "marin@abv.bg", "id": "1"},
+	// }
+
+	args := configer.GetSection("example", "POST")
+
 	postResponseBody, respCode := api.Post(args)
 
 	// SHOWING THE RESPONSE BODY AND RESPONSE
