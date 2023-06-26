@@ -30,16 +30,16 @@ func Get(args map[string]interface{}) (string, int) {
 			}
 		}
 	}
-
-	u, _ := url.ParseRequestURI(fmt.Sprint(args["url"]))
+	u, err := url.ParseRequestURI(fmt.Sprint(args["url"]))
+	checkErr(err)
 	if args["endpoint"] != nil {
 		u.Path = fmt.Sprint(args["endpoint"])
 	} else {
 		u.Path = ""
 	}
+
 	u.RawQuery = params.Encode()
 	urlStr := fmt.Sprintf("%v", u)
-
 	// Building request
 	request, err := http.NewRequest("GET", urlStr, nil)
 	checkErr(err)
